@@ -1,5 +1,17 @@
-# Object file
-*.o
+dist/
+build/
+venv/
 
-# Ada Library Information
-*.ali
+*.log
+*.exe
+*.spec
+*.conf
+*.zip
+*.env
+
+**/venv/
+**/lib/
+**/__pycache__
+**/node_modules
+**/package-lock.json
+**/.streamlit/secrets.toml

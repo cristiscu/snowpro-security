@@ -1,2 +1,3 @@
-# snowpro-security
-All demo code for my "SnowPro Advanced: Security Engineer Exam Preparation" Udemy course
+# SnowPro Advanced: Security Engineer Certification Exam
+
+All code for my Udemy course **SnowPro Advanced: Security Engineer Certification Exam**.
