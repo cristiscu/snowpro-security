@@ -1,0 +1,27 @@
+-- allow access to all public IPs (avoid "Network policy is required")
+CREATE NETWORK RULE my_allow_all_rule
+  MODE=INGRESS TYPE=IPV4 VALUE_LIST=('0.0.0.0/0');
+CREATE NETWORK POLICY my_allow_all_policy
+  ALLOWED_NETWORK_RULE_LIST=('my_allow_all_rule');
+ALTER ACCOUNT SET NETWORK_POLICY=my_allow_all_policy;
+
+-- create authentication policy (w/ PAT)
+CREATE AUTHENTICATION POLICY my_auth_policy
+  PAT_POLICY=(NETWORK_POLICY_EVALUATION=NOT_ENFORCED
+    MAX_EXPIRY_IN_DAYS=90 DEFAULT_EXPIRY_IN_DAYS=30)
+  AUTHENTICATION_METHODS=('OAUTH', 'PROGRAMMATIC_ACCESS_TOKEN');
+DESCRIBE AUTHENTICATION POLICY my_auth_policy;
+SHOW AUTHENTICATION POLICIES;
+
+--------------------------------------------------------
+-- create PAT for current user (update with your values)
+GRANT MODIFY PROGRAMMATIC AUTHENTICATION METHODS
+  ON USER cristiscu TO ROLE accountadmin;
+
+-- generate & copy the token_secret value (the PAT)
+ALTER USER ADD PROGRAMMATIC ACCESS TOKEN example_token;
+SHOW USER PROGRAMMATIC ACCESS TOKENS FOR USER …;
+SELECT * FROM SNOWFLAKE.ACCOUNT_USAGE.CREDENTIALS WHERE type='PAT';
+
+-- replace with your own PAT --> JSON w/ PAT status
+SELECT SYSTEM$DECODE_PAT('<your PAT>');
